@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>URL/PDF 转 Markdown 转换器</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <!-- 引入 marked.js 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <h1>URL/PDF 转 Markdown 转换器</h1>
+    <form action="/convert" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="url">输入 URL:</label>
+            <input type="url" id="url" name="url" placeholder="https://example.com" size="50">
+        </div>
+        <div>
+            <label for="file">或上传 PDF 文件:</label>
+            <input type="file" id="file" name="file" accept="application/pdf">
+        </div>
+        <div>
+            <button type="submit">转换</button>
+        </div>
+    </form>
+    {% if markdown %}
+    <h2>转换结果:</h2>
+    <div class="result-container">
+        <div class="markdown-section">
+            <h3>原始 Markdown:</h3>
+            <textarea id="markdown-content" rows="20" readonly>{{ markdown }}</textarea>
+        </div>
+        <div class="rendered-section">
+            <h3>渲染后的内容:</h3>
+            <div id="rendered-content"></div>
+        </div>
+    </div>
+    <script>
+        // 使用 marked.js 将 Markdown 转换为 HTML 并显示
+        const markdownText = `{{ markdown | escape }}`
+        const renderedHtml = marked.parse(markdownText);
+        document.getElementById('rendered-content').innerHTML = renderedHtml;
+    </script>
+    {% endif %}
+</body>
+</html>

@@ -2,43 +2,82 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>URL/PDF 转 Markdown 转换器</title>
+    <title>URL/PDF/DOCX 转 Markdown 转换器</title>
     <link rel="stylesheet" href="/static/styles.css">
-    <!-- 引入 marked.js 库 -->
+    <!-- 使用 CDN 引入 marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <h1>URL/PDF 转 Markdown 转换器</h1>
-    <form action="/convert" method="post" enctype="multipart/form-data">
-        <div>
+    <h1>URL/PDF/DOCX 转 Markdown 转换器</h1>
+    <form id="convert-form" action="/convert" method="post" enctype="multipart/form-data">
+        <div class="form-group">
             <label for="url">输入 URL:</label>
             <input type="url" id="url" name="url" placeholder="https://example.com" size="50">
         </div>
-        <div>
-            <label for="file">或上传 PDF 文件:</label>
-            <input type="file" id="file" name="file" accept="application/pdf">
+        <div class="form-group">
+            <label for="file">或上传 PDF/DOCX 文件:</label>
+            <input type="file" id="file" name="file" accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
         </div>
-        <div>
+        <div class="form-group">
             <button type="submit">转换</button>
         </div>
+        <div id="loading" class="loading" style="display: none;">
+            <p>正在转换，请稍候...</p>
+        </div>
     </form>
+    {% if error %}
+    <div class="error-message">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
     {% if markdown %}
     <h2>转换结果:</h2>
     <div class="result-container">
         <div class="markdown-section">
-            <h3>原始 Markdown:</h3>
+            <div class="header">
+                <h3>原始 Markdown:</h3>
+                <div class="buttons">
+                    <button type="button" onclick="copyToClipboard('markdown-content')">复制</button>
+                    <a href="/download/{{ file_id }}" class="download-button" download>下载</a>
+                </div>
+            </div>
             <textarea id="markdown-content" rows="20" readonly>{{ markdown }}</textarea>
         </div>
         <div class="rendered-section">
-            <h3>渲染后的内容:</h3>
+            <div class="header">
+                <h3>渲染后的内容:</h3>
+                <button type="button" onclick="copyToClipboard('rendered-content')">复制</button>
+            </div>
             <div id="rendered-content"></div>
         </div>
     </div>
     <script>
+        // 显示加载指示器
+        const form = document.getElementById('convert-form');
+        form.addEventListener('submit', () => {
+            document.getElementById('loading').style.display = 'block';
+        });
+
         // 使用 marked.js 将 Markdown 转换为 HTML 并显示
-        const markdownText = `{{ markdown | escape }}`
+        const markdownText = `{{ markdown | replace("\n", "\\n") | safe }}`;
         const renderedHtml = marked.parse(markdownText);
         document.getElementById('rendered-content').innerHTML = renderedHtml;
+
+        // 实现复制功能
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            let textToCopy;
+            if (element.tagName.toLowerCase() === 'textarea') {
+                textToCopy = element.value;
+            } else {
+                textToCopy = element.innerText;
+            }
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('复制成功！');
+            }).catch(() => {
+                alert('复制失败，请手动复制。');
+            });
+        }
     </script>
     {% endif %}
 </body>

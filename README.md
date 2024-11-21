@@ -1,7 +1,5 @@
 # 📄 URL/PDF/DOCX to Markdown Converter
 
-![Project Banner](https://i.imgur.com/placeholder.png)
-
 Welcome to the **URL/PDF/DOCX to Markdown Converter**! 🚀 This web application allows you to effortlessly convert web pages, PDF documents, and DOCX files into well-structured Markdown format. Whether you're a developer, writer, or anyone needing to transform documents, this tool has got you covered!
 
 ## 🌟 Features
@@ -63,8 +61,8 @@ markdown_converter/
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/markdown_converter.git
-   cd markdown_converter
+   git clone https://github.com/DanielZhui/py-2-md
+   cd py-2-md
    ```
 
 2. **Create a Virtual Environment**
@@ -112,11 +110,14 @@ uvicorn main:app --reload
 
 ### Home Page
 
-![Home Page](https://i.imgur.com/placeholder.png)
+![Home Page](https://imgfans.com/_Xavph)
 
 ### Conversion Result
 
-![Conversion Result](https://i.imgur.com/placeholder.png)
+![conversion image](https://imgfans.com/_Q3adv)
+
+
+![conversion image](https://imgfans.com/_wM316)
 
 *Replace the placeholder links with actual screenshots of your application.*
 
@@ -164,11 +165,6 @@ This project is licensed under the [MIT License](LICENSE).
 - [pdfplumber GitHub](https://github.com/jsvine/pdfplumber)
 - [python-docx Documentation](https://python-docx.readthedocs.io/)
 - [marked.js GitHub](https://github.com/markedjs/marked)
-
-## 📫 Contact
-
-For any questions or suggestions, feel free to open an issue or contact [youremail@example.com](mailto:youremail@example.com).
-
 ---
 
 ✨ **Happy Converting!** ✨

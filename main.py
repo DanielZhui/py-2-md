@@ -65,10 +65,11 @@ async def convert_markdown(
     else:
         error_message = "Please provide URL or upload the PDF/DOCX file."
 
-    if markdown_text:
-        file_path = os.path.join(DOWNLOAD_DIR, f"{file_id}.md")
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(markdown_text)
+    # download markdown file
+    # if markdown_text:
+    #     file_path = os.path.join(DOWNLOAD_DIR, f"{file_id}.md")
+    #     with open(file_path, "w", encoding="utf-8") as f:
+    #         f.write(markdown_text)
 
     return templates.TemplateResponse("index.html", {
         "request": request,
